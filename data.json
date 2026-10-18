@@ -1,0 +1,11 @@
+{
+  "name": "Babar Azam",
+  "role": "Batsman",
+  "country": "Pakistan",
+  "image": "babar.jpg",
+  "stats": {
+    "matches": 250,
+    "runs": 12000,
+    "average": 54.2
+  }
+}

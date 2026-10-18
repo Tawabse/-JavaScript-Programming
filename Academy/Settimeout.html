@@ -1,0 +1,384 @@
+
+
+
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Computer Architecture Guide</title>
+    <style>
+        /* CSS optimized for crisp PDF rendering */
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            font-size: 11pt;
+            line-height: 1.6;
+            color: #222;
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 40px;
+        }
+
+        /* Page breaks for clean PDF separation */
+        .page-break {
+            page-break-before: always;
+        }
+
+        h1 {
+            text-align: center;
+            color: #003366;
+            font-size: 24pt;
+            border-bottom: 3px solid #003366;
+            padding-bottom: 15px;
+            margin-bottom: 30px;
+        }
+
+        h2 {
+            color: #005599;
+            font-size: 16pt;
+            margin-top: 0px;
+            border-bottom: 1px solid #ccc;
+            padding-bottom: 10px;
+        }
+
+        /* The bold, highlighted topic style requested */
+        .topic-title {
+            font-weight: bold;
+            font-size: 13pt;
+            background-color: #FFFF00; /* Yellow highlight */
+            padding: 3px 6px;
+            display: inline-block;
+            margin-bottom: 10px;
+        }
+
+        .sub-topic {
+            font-weight: bold;
+            color: #003366;
+        }
+
+        ul {
+            margin-top: 5px;
+            margin-bottom: 25px;
+        }
+
+        li {
+            margin-bottom: 8px;
+        }
+
+        /* Diagram styling to prevent PDF wrapping issues */
+        .diagram-box {
+            background-color: #f4f4f4;
+            border: 1px solid #ddd;
+            padding: 15px;
+            margin: 15px 0 30px 0;
+            font-family: 'Courier New', Courier, monospace;
+            font-size: 9pt;
+            line-height: 1.3;
+            white-space: pre; /* Forces exact ASCII layout */
+            overflow-x: auto;
+            page-break-inside: avoid; /* Prevents diagram from splitting across PDF pages */
+        }
+
+        .diagram-label {
+            font-weight: bold;
+            font-size: 10pt;
+            color: #555;
+            margin-bottom: 5px;
+            font-family: 'Segoe UI', sans-serif;
+        }
+    </style>
+</head>
+<body>
+
+    <h1>Computer Architecture Study Guide</h1>
+
+    <!-- TOPIC 1: CACHE MEMORY -->
+    <h2>Chapter 10: Cache Memory</h2>
+
+    <ul>
+        <li><span class="topic-title">1. Cache and Cache Operation</span>
+            <ul>
+                <li><span class="sub-topic">What is a Cache?</span> A small, incredibly fast memory layer situated between the CPU and the slower Main Memory (RAM).</li>
+                <li><span class="sub-topic">Purpose:</span> To store frequently used data and eliminate CPU wait times.</li>
+                <li><span class="sub-topic">How it Operates:</span> It follows a simple check-and-fetch process:
+                    <ul>
+                        <li><strong>Cache Hit:</strong> The CPU checks the cache, finds the data, and retrieves it instantly.</li>
+                        <li><strong>Cache Miss:</strong> The CPU checks the cache, does not find the data, and must fetch it from Main Memory (copying it into the cache for future use).</li>
+                    </ul>
+                </li>
+            </ul>
+        </li>
+    </ul>
+    
+    <div class="diagram-label">Diagram: Cache Operation Flow</div>
+    <div class="diagram-box">  CPU requests data
+         |
+         v
+  [ Check Cache ]
+      /       \
+   YES         NO
+    /           \
+ HIT           MISS
+   |             |
+   v             v
+Delivered   Fetch from RAM
+Instantly   -&gt; Copy to Cache
+                -&gt; Deliver to CPU</div>
+
+    <ul>
+        <li><span class="topic-title">2. Cache Memory Principles</span>
+            <ul>
+                <li><span class="sub-topic">The Core Rule:</span> The entire system relies on the Principle of Locality, which assumes data access is not random.</li>
+                <li><span class="sub-topic">Temporal Locality (Time):</span> If a CPU accesses a piece of data, it is highly likely to access that exact same data again in the near future.</li>
+                <li><span class="sub-topic">Spatial Locality (Space):</span> If a CPU accesses a piece of data, it is highly likely to access data located right next to it in memory.</li>
+                <li><span class="sub-topic">Result:</span> Because of these principles, a tiny cache can successfully predict and hold the necessary data, acting as an invisible speed booster.</li>
+            </ul>
+        </li>
+    </ul>
+
+    <div class="diagram-label">Diagram: Principle of Locality</div>
+    <div class="diagram-box">Memory Array: [ Block A ] [ Block B ] [ Block C ] [ Block D ]
+
+Temporal: CPU uses "Block B" now ---&gt; CPU will likely use "Block B" again soon.
+Spatial:  CPU uses "Block B" now ---&gt; CPU will likely use "Block A" or "Block C" next.</div>
+
+    <ul>
+        <li><span class="topic-title">3. Elements of Cache Design</span>
+            <ul>
+                <li><span class="sub-topic">The Goal:</span> Maximize the "hit rate" while minimizing cost and access time.</li>
+                <li><span class="sub-topic">The Challenge:</span> Engineers must carefully balance trade-offs rather than just adding more memory.</li>
+                <li><span class="sub-topic">Core Design Elements:</span>
+                    <ul>
+                        <li><strong>Cache Size:</strong> How much physical space it takes up.</li>
+                        <li><strong>Line Size:</strong> How data is grouped together.</li>
+                        <li><strong>Write Policies:</strong> The rules for what happens when the CPU modifies (writes to) data.</li>
+                        <li><strong>Mapping Function:</strong> The system used to locate data inside the cache.</li>
+                    </ul>
+                </li>
+            </ul>
+        </li>
+    </ul>
+
+    <ul>
+        <li><span class="topic-title">4. Cache Size</span>
+            <ul>
+                <li><span class="sub-topic">The Benefit of Large Caches:</span> Can hold more data, which generally increases the hit rate.</li>
+                <li><span class="sub-topic">The Drawback of Large Caches:</span> Physically larger, exponentially more expensive to manufacture, and slower to search through.</li>
+                <li><span class="sub-topic">The Goal:</span> Find the "sweet spot"—large enough to be useful, but small enough to remain fast and affordable.</li>
+            </ul>
+        </li>
+    </ul>
+
+    <div class="diagram-label">Diagram: Cache Size Trade-off</div>
+    <div class="diagram-box">          (Fast &amp; Cheap)
+               ^
+               |
+           Small Cache
+               |
+               v
+          &lt;----- SIZE -----&gt;
+               ^
+               |
+          Large Cache
+               |
+               v
+          (Slow &amp; Expensive)</div>
+
+    <ul>
+        <li><span class="topic-title">5. Mapping Function</span>
+            <ul>
+                <li><span class="sub-topic">The Problem:</span> Main memory is huge, and cache is tiny. We need strict rules to dictate where a block of main memory goes inside the cache, and how to find it later.</li>
+                <li><span class="sub-topic">Direct Mapping:</span> Every memory block is mathematically forced to map to exactly one specific line. <strong>Pro:</strong> Fast. <strong>Con:</strong> High risk of "thrashing".</li>
+                <li><span class="sub-topic">Associative Mapping:</span> A memory block can be placed into any available line. <strong>Pro:</strong> Solves thrashing. <strong>Con:</strong> Searching is slow and expensive.</li>
+                <li><span class="sub-topic">Set-Associative Mapping:</span> Divides the cache into "sets". A block maps to a specific set, but can go into any line within that set. <strong>Pro:</strong> Reduces thrashing while keeping search times fast.</li>
+            </ul>
+        </li>
+    </ul>
+
+    <div class="diagram-label">Diagram: Mapping Functions Comparison</div>
+    <div class="diagram-box">MAIN MEMORY BLOCKS: [ M0 ] [ M1 ] [ M4 ] [ M5 ]
+
+1. DIRECT MAPPING (Forced to 1 specific line)
+   Cache: [ Line 0 ] &lt;--- M0 AND M4 fight for this spot (Thrashing!)
+           [ Line 1 ] &lt;--- M1
+
+2. ASSOCIATIVE MAPPING (Can go anywhere)
+   Cache: [ Line 0 ] &lt;--- M0
+           [ Line 1 ] &lt;--- M4  (Searches ALL lines to find them)
+           [ Line 2 ] &lt;--- M1
+
+3. SET-ASSOCIATIVE MAPPING (Forced to 1 Set, flexible within it)
+   Cache: [ Set 0: Line 0 ] &lt;--- M0 goes here
+          [ Set 0: Line 1 ] &lt;--- M4 goes here (No thrashing, limited search!)
+          [ Set 1: Line 2 ] &lt;--- M1 goes here
+          [ Set 1: Line 3 ]</div>
+
+
+    <!-- TOPIC 2: PIPELINING -->
+    <div class="page-break"></div>
+    <h2>Chapter 11: Pipelining</h2>
+
+    <ul>
+        <li><span class="topic-title">1. Pipelining</span>
+            <ul>
+                <li><span class="sub-topic">What is it?</span> A technique where multiple instruction executions are overlapped to improve CPU throughput.</li>
+                <li><span class="sub-topic">The Goal:</span> Instead of finishing one instruction completely before starting the next, the CPU completes one instruction every clock cycle.</li>
+            </ul>
+        </li>
+    </ul>
+
+    <div class="diagram-label">Diagram: Basic 3-Stage Pipeline Flow</div>
+    <div class="diagram-box">Time ---&gt; 
+           Cycle 1    Cycle 2    Cycle 3    Cycle 4
+           ------------------------------------------------
+Instr 1:  [ Fetch ] [ Decode ] [ Execute ] [  Done  ]
+Instr 2:             [ Fetch ] [ Decode ] [ Execute ]
+Instr 3:                       [ Fetch ] [ Decode ]</div>
+
+    <ul>
+        <li><span class="topic-title">2. Issues and Hurdles</span>
+            <ul>
+                <li><span class="sub-topic">The Core Problem:</span> The next instruction often depends on the previous one, causing "Hazards" that stall the pipeline.</li>
+                <li><span class="sub-topic">Structural Hazard:</span> Hardware cannot support overlapping instructions (e.g., trying to fetch and access memory at the same time).</li>
+                <li><span class="sub-topic">Data Hazard:</span> An instruction needs data that a previous instruction hasn't finished calculating yet.</li>
+                <li><span class="sub-topic">Control Hazard:</span> The CPU doesn't know which instruction to fetch next because it is waiting for a branch/jump decision.</li>
+            </ul>
+        </li>
+    </ul>
+
+    <div class="diagram-label">Diagram: Pipeline Stall (Bubble) due to a Hazard</div>
+    <div class="diagram-box">           Cycle 1    Cycle 2    Cycle 3    Cycle 4    Cycle 5
+           ----------------------------------------------------
+Instr 1:  [ Fetch ] [ Decode ] [ Execute ] [  Done  ] [        ]
+Instr 2:             [ Fetch ] [  STALL  ] [  STALL  ] [ Decode ]
+Instr 3:                       [  STALL  ] [  STALL  ] [ Fetch  ]
+                                ^--- "Bubble" caused by waiting for data</div>
+
+    <ul>
+        <li><span class="topic-title">3. Exception Handling</span>
+            <ul>
+                <li><span class="sub-topic">What is an Exception?</span> Unpredictable, disruptive events like dividing by zero or accessing invalid memory.</li>
+                <li><span class="sub-topic">The Solution:</span> Precise Exception Handling. The CPU stops the pipeline, flushes out (erases) all instructions that followed the exception, saves the exact state of the CPU, and jumps to an exception-handling routine.</li>
+            </ul>
+        </li>
+    </ul>
+
+    <div class="diagram-label">Diagram: Pipeline Flushing on Exception</div>
+    <div class="diagram-box">           Cycle 1    Cycle 2    Cycle 3    Cycle 4    Cycle 5
+           ----------------------------------------------------
+Instr 1:  [ Fetch ] [ Decode ] [EXCEPTION] [  FLUSH ] [ Handle ]
+Instr 2:             [ Fetch ] [  FLUSH  ] [  FLUSH ] [        ]
+Instr 3:                       [  FLUSH  ] [  FLUSH ] [        ]
+                                        ^--- Erasing ghost instructions</div>
+
+    <ul>
+        <li><span class="topic-title">4. Parallelism</span>
+            <ul>
+                <li><span class="sub-topic">The Concept:</span> Doing multiple things at the exact same time (Instruction-Level Parallelism).</li>
+                <li><span class="sub-topic">Superscalar Execution:</span> The CPU has multiple identical pipelines side-by-side. It dispatches independent instructions to different pipelines simultaneously.</li>
+            </ul>
+        </li>
+    </ul>
+
+    <div class="diagram-label">Diagram: Moving to Parallelism (Superscalar)</div>
+    <div class="diagram-box">Single Pipeline:
+Instr 1: [ Fetch ] [ Decode ] [ Execute ]
+Instr 2:            [ Fetch ] [ Decode ] [ Execute ]
+
+Superscalar (2 Pipelines):
+           Cycle 1    Cycle 2    Cycle 3
+           --------------------------------
+Pipeline 1: [ Fetch1 ] [ Decode1 ] [ Execute1 ]
+Pipeline 2: [ Fetch2 ] [ Decode2 ] [ Execute2 ]
+           ^--- Both instructions are executed at the exact same time!</div>
+
+
+    <!-- TOPIC 3: RISC vs CISC -->
+    <div class="page-break"></div>
+    <h2>Instruction Set Design: RISC and CISC Architectures</h2>
+
+    <ul>
+        <li><span class="topic-title">1. Overview</span>
+            <ul>
+                <li><span class="sub-topic">Instruction Set Architecture (ISA):</span> The vocabulary of the CPU (e.g., ADD, SUBTRACT, LOAD).</li>
+                <li><span class="sub-topic">CISC (Complex Instruction Set Computer):</span> Aims to execute complex, multi-step tasks using a single, highly specialized instruction.</li>
+                <li><span class="sub-topic">RISC (Reduced Instruction Set Computer):</span> Aims to use only simple, basic instructions, requiring multiple steps to complete a complex task.</li>
+            </ul>
+        </li>
+    </ul>
+
+    <div class="diagram-label">Diagram: The ISA Translation Layer</div>
+    <div class="diagram-box">High-Level Code (e.g., C++)
+         |
+         v
+  [ COMPILER / SOFTWARE ]
+         |
+         v
+Instruction Set (RISC or CISC) ---&gt; Uses "Addressing Modes" to locate data
+         |
+         v
+   [ CPU HARDWARE ]</div>
+
+    <ul>
+        <li><span class="topic-title">2. History</span>
+            <ul>
+                <li><span class="sub-topic">The CISC Era (1970s):</span> Memory was expensive and slow. Engineers put complexity into the hardware to make compiled software smaller.</li>
+                <li><span class="sub-topic">The RISC Revolution (1980s):</span> Memory became cheaper. Researchers shifted complexity from hardware back to software (compilers), creating RISC to execute simple instructions in a single clock cycle.</li>
+            </ul>
+        </li>
+    </ul>
+
+    <div class="diagram-label">Diagram: Shift in Complexity</div>
+    <div class="diagram-box">1970s (CISC): 
+Software = Simple  ----&gt;  Hardware = Complex &amp; Slow
+(Memory was expensive, so code had to be tiny)
+
+1980s+ (RISC):
+Software = Complex  ----&gt;  Hardware = Simple &amp; Fast
+(Compilers do the heavy lifting; hardware just races through simple steps)</div>
+
+    <ul>
+        <li><span class="topic-title">3. Comparison</span>
+            <ul>
+                <li><span class="sub-topic">Instruction Design:</span> RISC uses fixed-length instructions (easy to decode). CISC uses variable-length instructions (harder to decode).</li>
+                <li><span class="sub-topic">Execution Time:</span> RISC instructions take 1 clock cycle. CISC instructions take multiple clock cycles.</li>
+                <li><span class="sub-topic">Registers:</span> RISC relies on a massive array of CPU registers. CISC relies on fewer registers and interacts directly with RAM.</li>
+            </ul>
+        </li>
+    </ul>
+
+    <div class="diagram-label">Diagram: Side-by-Side Execution Comparison</div>
+    <div class="diagram-box">Task: Multiply a number in memory by 2 and save it back.
+
+CISC Approach (One complex instruction):
+[ MULT_MEM_ADDR ]  ---&gt; CPU does the loading, multiplying, and storing internally.
+
+RISC Approach (Multiple simple instructions):
+[ LOAD  ] (Get data from memory to register)  ---&gt; Cycle 1
+[ SHIFT ] (Multiply by 2 inside register)    ---&gt; Cycle 1
+[ STORE ] (Put data back to memory)          ---&gt; Cycle 1
+(Takes 3 instructions, but each is blazingly fast)</div>
+
+    <ul>
+        <li><span class="topic-title">4. Advantages and Disadvantages</span>
+            <ul>
+                <li><span class="sub-topic">RISC Advantages:</span> Extremely high clock speeds; simpler, cheaper hardware; highly optimized by modern compilers.</li>
+                <li><span class="sub-topic">RISC Disadvantages:</span> Code size is much larger; performance heavily depends on the quality of the compiler.</li>
+                <li><span class="sub-topic">CISC Advantages:</span> Much smaller program sizes; easier for humans to write assembly code; strong legacy support.</li>
+                <li><span class="sub-topic">CISC Disadvantages:</span> Hardware is complex, power-hungry, and runs hotter; variable instruction lengths create pipeline bottlenecks.</li>
+            </ul>
+        </li>
+    </ul>
+
+    <div class="diagram-label">Diagram: The Trade-off Scale</div>
+    <div class="diagram-box">          RISC Side                     CISC Side
+          (Simpler)                     (Complex)
+               |                            |
+   Faster Clock Speeds              Smaller Code Size
+   Lower Power Consumption          Easier Assembly Writing
+   Better for Pipelining            Strong Backward Compatibility
+               |                            |
+          [ Larger Files ]             [ Slower Hardware ]</div>
+
+</body>
+</html>

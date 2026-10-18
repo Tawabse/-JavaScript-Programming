@@ -1,0 +1,50 @@
+body {
+   background-color: hwb(187 1% 96% / 0);
+  color:white;
+}
+h1 {
+     padding: 30px;
+     background-color: burlywood;
+     color: crimson;
+}
+p {
+       padding: 20px; 
+     background-color: rgb(213, 222, 135);
+     color: #362ca9; 
+ font-size:100%;
+ font-weight: 200%;
+}
+h2 {
+     padding: 30px;
+     background-color: #91de87f5;
+     color: crimson;
+}
+button {
+  color :white;
+  background-color: #362ca9; 
+  border: 1px solid #362ca9;
+  border-radius:5px ;
+  padding: 10px;
+}
+ .para {
+    color:red;
+    background-color:rgba(221, 255, 0, 0.689) ;
+      font-size:  15px;
+      padding: 30px;
+      font-weight: 40px;
+
+      text-align: center;
+   justify-content: center;
+
+ }
+  .highlight {
+    color: white;
+    background-color: black;
+      font-size:  15px;
+      padding: 30px;
+      font-weight: 40px;
+ 
+
+
+       
+  }
